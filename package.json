@@ -7,24 +7,41 @@
     "build": "remix build",
     "dev": "remix dev --manual",
     "start": "remix-serve ./build/index.js",
-    "typecheck": "tsc"
+    "lint": "concurrently npm:lint:*",
+    "lint:typescript": "tsc --noemit --skipLibCheck",
+    "lint:prettier": "prettier --check .",
+    "lint:eslint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "@remix-run/css-bundle": "^2.1.0",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/pro-duotone-svg-icons": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@portabletext/react": "^3.0.11",
     "@remix-run/node": "^2.1.0",
     "@remix-run/react": "^2.1.0",
     "@remix-run/serve": "^2.1.0",
-    "isbot": "^3.6.8",
+    "@sanity/client": "^6.7.0",
+    "@sanity/image-url": "^1.0.2",
+    "@sanity/preview-kit": "^3.2.6",
+    "groq": "^3.18.1",
+    "isbot": "^3.7.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.1.0",
     "@remix-run/eslint-config": "^2.1.0",
+    "@tailwindcss/typography": "^0.5.10",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
-    "eslint": "^8.38.0",
-    "typescript": "^5.1.6"
+    "concurrently": "^8.2.2",
+    "eslint": "^8.50.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
+    "prettier": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.6",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2"
   },
   "engines": {
     "node": ">=18.0.0"

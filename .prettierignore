@@ -1,0 +1,13 @@
+node_modules
+
+.DS_Store
+
+.env
+.env.*
+
+/.cache
+/build
+/public/build
+/app/tailwind.css
+
+pnpm-lock.yaml
