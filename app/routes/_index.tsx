@@ -47,7 +47,9 @@ export default function Index() {
               to={`/posts/${post.pageMeta.slug.current}`}
             >
               <div>
-                <h3 className="text-2xl font-bold">{post.pageMeta.title}</h3>
+                <h3 className="font-mono text-2xl font-bold">
+                  {post.pageMeta.title}
+                </h3>
                 <p className="text-xs text-stone-400">
                   Published:{" "}
                   <time date-time={post.pageMeta.published}>

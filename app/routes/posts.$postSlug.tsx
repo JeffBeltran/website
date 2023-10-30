@@ -1,7 +1,10 @@
+import { faTerminal } from "@fortawesome/pro-duotone-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PortableText } from "@portabletext/react";
 import { useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 
+import { InlineCodeMark } from "~/components/inline-code-mark";
 import { RichTextLink } from "~/components/rich-text-link";
 import { getSanityPostDocument } from "~/lib/sanity/index.server";
 import { metaGenerator } from "~/utils/metaGenerator";
@@ -27,13 +30,11 @@ export default function PostPage() {
   return (
     <div className="py-8">
       <h1 className="mb-4 mt-8 flex items-center py-1 font-mono text-4xl font-bold">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 576 512"
-          className="mr-3 h-8 w-8 animate-pulse fill-current"
-        >
-          <path d="M34.2 45.5c-3.1-3.2-3-8.2.2-11.3s8.2-3 11.3.2l208 216c3 3.1 3 8 0 11.1l-208 216c-3.1 3.2-8.1 3.3-11.3.2s-3.3-8.1-.2-11.3L236.9 256 34.2 45.5zM232 464h336c4.4 0 8 3.6 8 8s-3.6 8-8 8H232c-4.4 0-8-3.6-8-8s3.6-8 8-8z" />
-        </svg>
+        <FontAwesomeIcon
+          icon={faTerminal}
+          className="mr-4 text-yellow-300"
+          fade
+        />
         {data.pageMeta.title}
       </h1>
       <div className="prose mt-8">
@@ -42,6 +43,7 @@ export default function PostPage() {
           components={{
             marks: {
               link: RichTextLink,
+              code: InlineCodeMark,
             },
           }}
         />
