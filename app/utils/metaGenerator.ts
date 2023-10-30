@@ -1,4 +1,5 @@
 import imageUrlBuilder from "@sanity/image-url";
+import { DateTime } from "luxon";
 
 import type { SanityPageMeta } from "./SanitySchemas";
 import type { Location } from "@remix-run/react";
@@ -13,6 +14,11 @@ export const metaGenerator = (
     return [];
   }
 
+  const publishedAt = DateTime.fromISO(pageMeta.published).toISODate();
+  const updatedAt = pageMeta.updated
+    ? DateTime.fromISO(pageMeta.updated).toISODate()
+    : publishedAt;
+
   const imgBuilder =
     typeof window !== "undefined"
       ? imageUrlBuilder({
@@ -24,7 +30,13 @@ export const metaGenerator = (
           dataset: process.env.SANITY_DATASET ?? "",
         });
 
-  const pathName = location.pathname;
+  const imageWidth = 1200;
+  const image = imgBuilder.image(pageMeta.image).width(imageWidth).url();
+  const imageHeight = Math.round(
+    1200 / pageMeta.image.asset.metadata.dimensions.aspectRatio,
+  );
+
+  const absoluteUrl = `https://www.jeffbeltran.com${location.pathname}`;
 
   // Initial attempt at meta tags: https://moz.com/blog/meta-data-templates-123
   return [
@@ -34,7 +46,7 @@ export const metaGenerator = (
     {
       tagName: "link",
       rel: "canonical",
-      href: `https://www.jeffbeltran.com${pathName}`,
+      href: absoluteUrl,
     },
 
     // Twitter Card
@@ -43,7 +55,7 @@ export const metaGenerator = (
     { name: "twitter:description", content: pageMeta.description },
     {
       name: "twitter:image",
-      content: imgBuilder.image(pageMeta.image).width(1200).url(),
+      content: image,
     },
     { name: "twitter:image:alt", content: pageMeta.image.asset.altText },
     { name: "twitter:creator", content: "@whereisjefe" },
@@ -51,14 +63,45 @@ export const metaGenerator = (
     // Open Graph
     {
       property: "og:url",
-      content: `https://www.jeffbeltran.com${pathName}`,
+      content: absoluteUrl,
     },
     { property: "og:site_name", content: "Jeff Beltran" },
     { property: "og:title", content: pageMeta.title },
     { property: "og:description", content: pageMeta.description },
     {
       property: "og:image",
-      content: imgBuilder.image(pageMeta.image).width(1200).url(),
+      content: image,
+    },
+    {
+      "script:ld+json": {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": absoluteUrl,
+        },
+        headline: pageMeta.title,
+        description: pageMeta.description,
+        image: {
+          "@type": "ImageObject",
+          url: image,
+          height: imageHeight,
+          width: imageWidth,
+        },
+        author: {
+          "@type": "Person",
+          name: "Jeff Beltran",
+          sameAs: ["https://twitter.com/whereisjefe"],
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Jeff Beltran's Blog",
+          url: "https://www.jeffbeltran.com",
+        },
+        datePublished: publishedAt,
+        dateModified: updatedAt,
+        url: absoluteUrl,
+      },
     },
   ];
 };

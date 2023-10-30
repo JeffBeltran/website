@@ -25,6 +25,7 @@
     "@sanity/preview-kit": "^3.2.6",
     "groq": "^3.18.1",
     "isbot": "^3.7.0",
+    "luxon": "^3.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "zod": "^3.22.4"
@@ -33,6 +34,7 @@
     "@remix-run/dev": "^2.1.0",
     "@remix-run/eslint-config": "^2.1.0",
     "@tailwindcss/typography": "^0.5.10",
+    "@types/luxon": "^3.3.3",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "concurrently": "^8.2.2",
