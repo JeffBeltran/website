@@ -65,6 +65,17 @@ const SanityRichTextBlock = BaseSanityObject.extend({
   _type: z.literal("block"),
 }).passthrough();
 
+export const SanityRichTextImage = BaseSanityObject.extend({
+  _type: z.literal("image"),
+  asset: SanityImageAssetSchema,
+  showTitle: z.boolean(),
+}).passthrough();
+
+const SanityRichText = z.discriminatedUnion("_type", [
+  SanityRichTextBlock,
+  SanityRichTextImage,
+]);
+
 export const SanityRichTextLinkSchema = BaseSanityObject.extend({
   _type: z.literal("link"),
   href: z.string(),
@@ -76,5 +87,5 @@ export const SanityRichTextLinkSchema = BaseSanityObject.extend({
 export const SanityPostDocument = BaseSanityDocument.extend({
   _type: z.literal("post"),
   pageMeta: SanityPageMeta,
-  content: z.array(SanityRichTextBlock),
+  content: z.array(SanityRichText),
 }).passthrough();

@@ -9,6 +9,12 @@ export const allPostsGroq = groq`*[_type == "post"]{
         image{
             ${imageGroq}
         }
+    },
+    content[]{
+        ...,
+        _type == 'image' => { 
+            ${imageGroq}
+        },
     }
 } 
 `;
@@ -22,6 +28,12 @@ export const postGroq = groq`*[
         image{
             ${imageGroq}
         }
+    },
+    content[]{
+        ...,
+        _type == 'image' => { 
+            ${imageGroq}
+        },
     }
 } 
 `;

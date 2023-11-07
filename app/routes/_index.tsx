@@ -39,7 +39,7 @@ export default function Index() {
         </div>
       </div>
 
-      <ul className="space-y-4">
+      <ul className="space-y-8">
         {data.map((post) => (
           <li key={post._id}>
             <Link

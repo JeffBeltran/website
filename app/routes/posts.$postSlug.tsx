@@ -5,6 +5,7 @@ import { useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 
 import { InlineCodeMark } from "~/components/inline-code-mark";
+import { RichTextImage } from "~/components/rich-text-image";
 import { RichTextLink } from "~/components/rich-text-link";
 import { getSanityPostDocument } from "~/lib/sanity/index.server";
 import { metaGenerator } from "~/utils/metaGenerator";
@@ -27,6 +28,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
 export default function PostPage() {
   const data = useLoaderData<typeof loader>();
+
   return (
     <div className="py-8">
       <h1 className="mb-4 mt-8 flex items-center py-1 font-mono text-4xl font-bold">
@@ -44,6 +46,9 @@ export default function PostPage() {
             marks: {
               link: RichTextLink,
               code: InlineCodeMark,
+            },
+            types: {
+              image: RichTextImage,
             },
           }}
         />
