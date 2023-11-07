@@ -30,10 +30,10 @@ export const metaGenerator = (
           dataset: process.env.SANITY_DATASET ?? "",
         });
 
-  const imageWidth = 1200;
+  const imageWidth = 800;
   const image = imgBuilder.image(pageMeta.image).width(imageWidth).url();
   const imageHeight = Math.round(
-    1200 / pageMeta.image.asset.metadata.dimensions.aspectRatio,
+    800 / pageMeta.image.asset.metadata.dimensions.aspectRatio,
   );
 
   const absoluteUrl = `https://www.jeffbeltran.com${location.pathname}`;
