@@ -1,6 +1,7 @@
+import type { Config } from "tailwindcss";
+
 const defaultTheme = require("tailwindcss/defaultTheme");
 
-/** @type {import('tailwindcss').Config} */
 export default {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
   theme: {
@@ -12,4 +13,4 @@ export default {
     },
   },
   plugins: [require("@tailwindcss/typography")],
-};
+} satisfies Config;
