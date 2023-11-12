@@ -10,7 +10,7 @@ import {
 } from "@remix-run/react";
 import { z } from "zod";
 
-import stylesheet from "~/tailwind.css";
+import "./tailwind.css";
 
 import { PreviewModeBubble } from "./components/preview-mode-bubble";
 import { commitSession, getSession, SessionKey } from "./sessions";
@@ -32,7 +32,6 @@ declare global {
 }
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesheet },
   {
     rel: "apple-touch-icon",
     sizes: "180x180",
@@ -115,8 +114,8 @@ export default function App() {
           }}
         />
         <ScrollRestoration />
-        <Scripts />
         <LiveReload />
+        <Scripts />
       </body>
     </html>
   );
