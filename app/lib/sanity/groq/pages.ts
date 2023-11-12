@@ -37,3 +37,22 @@ export const postGroq = groq`*[
     }
 } 
 `;
+export const postByIdGroq = groq`*[
+    _type == "post"  && 
+    _id == $id
+][0]{
+    ...,
+    pageMeta{
+        ...,
+        image{
+            ${imageGroq}
+        }
+    },
+    content[]{
+        ...,
+        _type == 'image' => { 
+            ${imageGroq}
+        },
+    }
+} 
+`;

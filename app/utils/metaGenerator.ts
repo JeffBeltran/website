@@ -1,48 +1,33 @@
-import imageUrlBuilder from "@sanity/image-url";
 import { DateTime } from "luxon";
 
-import type { SanityPageMeta } from "./SanitySchemas";
-import type { Location } from "@remix-run/react";
+import { OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH } from "~/routes/resource.og";
+
+import type { SanityPostDocument } from "./SanitySchemas";
 import type { z } from "zod";
 
 export const metaGenerator = (
-  location: Location,
-  pageMeta?: z.infer<typeof SanityPageMeta>,
+  request: Request,
+  document: z.infer<typeof SanityPostDocument>,
 ) => {
-  // data is undefined when an error boundary is triggered
-  if (!pageMeta) {
-    return [];
-  }
+  const { origin } = new URL(request.url);
 
-  const publishedAt = DateTime.fromISO(pageMeta.published).toISODate();
-  const updatedAt = pageMeta.updated
-    ? DateTime.fromISO(pageMeta.updated).toISODate()
+  console.log("origin", origin);
+  console.log("pageMeta", document.pageMeta.slug.current);
+
+  const publishedAt = DateTime.fromISO(document.pageMeta.published).toISODate();
+  const updatedAt = document.pageMeta.updated
+    ? DateTime.fromISO(document.pageMeta.updated).toISODate()
     : publishedAt;
 
-  const imgBuilder =
-    typeof window !== "undefined"
-      ? imageUrlBuilder({
-          projectId: window.ENV.SANITY_PROJECT_ID,
-          dataset: window.ENV.SANITY_DATASET,
-        })
-      : imageUrlBuilder({
-          projectId: process.env.SANITY_PROJECT_ID ?? "",
-          dataset: process.env.SANITY_DATASET ?? "",
-        });
+  const absoluteUrl = `${origin}/${document.pageMeta.slug.current}`;
 
-  const imageWidth = 800;
-  const image = imgBuilder.image(pageMeta.image).width(imageWidth).url();
-  const imageHeight = Math.round(
-    800 / pageMeta.image.asset.metadata.dimensions.aspectRatio,
-  );
-
-  const absoluteUrl = `https://www.jeffbeltran.com${location.pathname}`;
+  const image = `${origin}/resource/og?post=${document._id}`;
 
   // Initial attempt at meta tags: https://moz.com/blog/meta-data-templates-123
   return [
     // Standard Meta
-    { title: pageMeta.title },
-    { name: "description", content: pageMeta.description },
+    { title: document.pageMeta.title },
+    { name: "description", content: document.pageMeta.description },
     {
       tagName: "link",
       rel: "canonical",
@@ -51,13 +36,16 @@ export const metaGenerator = (
 
     // Twitter Card
     { name: "twitter:card", content: "summary_large_image" },
-    { name: "twitter:title", content: pageMeta.title },
-    { name: "twitter:description", content: pageMeta.description },
+    { name: "twitter:title", content: document.pageMeta.title },
+    { name: "twitter:description", content: document.pageMeta.description },
     {
       name: "twitter:image",
       content: image,
     },
-    { name: "twitter:image:alt", content: pageMeta.image.asset.altText },
+    {
+      name: "twitter:image:alt",
+      content: document.pageMeta.image.asset.altText,
+    },
     { name: "twitter:creator", content: "@whereisjefe" },
 
     // Open Graph
@@ -66,8 +54,8 @@ export const metaGenerator = (
       content: absoluteUrl,
     },
     { property: "og:site_name", content: "Jeff Beltran" },
-    { property: "og:title", content: pageMeta.title },
-    { property: "og:description", content: pageMeta.description },
+    { property: "og:title", content: document.pageMeta.title },
+    { property: "og:description", content: document.pageMeta.description },
     {
       property: "og:image",
       content: image,
@@ -80,13 +68,13 @@ export const metaGenerator = (
           "@type": "WebPage",
           "@id": absoluteUrl,
         },
-        headline: pageMeta.title,
-        description: pageMeta.description,
+        headline: document.pageMeta.title,
+        description: document.pageMeta.description,
         image: {
           "@type": "ImageObject",
           url: image,
-          height: imageHeight,
-          width: imageWidth,
+          height: OG_IMAGE_HEIGHT,
+          width: OG_IMAGE_WIDTH,
         },
         author: {
           "@type": "Person",

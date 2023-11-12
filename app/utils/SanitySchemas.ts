@@ -18,39 +18,43 @@ export const SanitySlug = z.object({
   current: z.string(),
 });
 
-export const SanityImageAssetSchema = z.object({
-  _id: z.string(),
-  title: z.string().nullable(),
-  altText: z.string().nullable(),
-  description: z.string().nullable(),
-  metadata: z.object({
-    lqip: z.string(),
-    dimensions: z.object({
-      aspectRatio: z.number(),
-      height: z.number(),
-      width: z.number(),
+export const SanityImageAssetSchema = z
+  .object({
+    _id: z.string(),
+    title: z.string().nullable(),
+    altText: z.string().nullable(),
+    description: z.string().nullable(),
+    metadata: z.object({
+      lqip: z.string(),
+      dimensions: z.object({
+        aspectRatio: z.number(),
+        height: z.number(),
+        width: z.number(),
+      }),
     }),
-  }),
-});
+  })
+  .passthrough();
 
-export const SanityImageSchema = z.object({
-  _type: z.literal("image"),
-  asset: SanityImageAssetSchema,
-  crop: z
-    .object({
-      bottom: z.number(),
-      left: z.number(),
-      right: z.number(),
-      top: z.number(),
-    })
-    .optional(),
-  hotspot: z
-    .object({
-      x: z.number(),
-      y: z.number(),
-    })
-    .optional(),
-});
+export const SanityImageSchema = z
+  .object({
+    _type: z.literal("image"),
+    asset: SanityImageAssetSchema,
+    crop: z
+      .object({
+        bottom: z.number(),
+        left: z.number(),
+        right: z.number(),
+        top: z.number(),
+      })
+      .optional(),
+    hotspot: z
+      .object({
+        x: z.number(),
+        y: z.number(),
+      })
+      .optional(),
+  })
+  .passthrough();
 
 export const SanityPageMeta = z.object({
   title: z.string(),

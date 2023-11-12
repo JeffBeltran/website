@@ -20,7 +20,7 @@
     "@remix-run/node": "^2.1.0",
     "@remix-run/react": "^2.1.0",
     "@remix-run/serve": "^2.1.0",
-    "@sanity/client": "^6.7.0",
+    "@resvg/resvg-js": "^2.6.0",
     "@sanity/image-url": "^1.0.2",
     "@sanity/preview-kit": "^3.2.6",
     "groq": "^3.18.1",
@@ -29,6 +29,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sanity-image": "^0.1.6",
+    "satori": "^0.10.9",
     "zod": "^3.22.4"
   },
   "devDependencies": {

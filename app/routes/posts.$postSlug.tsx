@@ -16,28 +16,34 @@ const pageParamsSchema = z.object({
   postSlug: z.string(),
 });
 
-export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
-  return metaGenerator(location, data?.pageMeta);
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  // data is undefined when an error boundary is triggered
+  return data?.metaData ?? [];
 };
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const { postSlug } = pageParamsSchema.parse(params);
 
-  return await getSanityPostDocument(request, postSlug);
+  const pageData = await getSanityPostDocument(request, postSlug);
+
+  return {
+    data: pageData,
+    metaData: metaGenerator(request, pageData),
+  };
 }
 
 export default function PostPage() {
-  const data = useLoaderData<typeof loader>();
-
+  const { data } = useLoaderData<typeof loader>();
+  // console.log(data);
   return (
     <div className="py-8">
       <h1 className="mb-4 mt-8 flex items-center py-1 font-mono text-4xl font-bold">
         <FontAwesomeIcon
           icon={faTerminal}
-          className="mr-4 text-yellow-300"
+          className="mr-4 h-9 w-8 text-yellow-300"
           fade
         />
-        {data.pageMeta.title}
+        <span>{data.pageMeta.title}</span>
       </h1>
       <div className="prose mt-8">
         <PortableText

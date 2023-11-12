@@ -3,7 +3,7 @@ import { createClient } from "@sanity/client";
 import { SessionKey, getSession } from "~/sessions";
 import { SanityPostDocument } from "~/utils/SanitySchemas";
 
-import { allPostsGroq, postGroq } from "./groq/pages";
+import { allPostsGroq, postByIdGroq, postGroq } from "./groq/pages";
 
 if (!process.env.SANITY_PROJECT_ID) {
   throw new Error("SANITY_PROJECT_ID env var is not set");
@@ -52,6 +52,24 @@ export const getSanityPostDocument = async (request: Request, slug: string) => {
   const client = await getSanityClient(request);
   const postData = await client.fetch(postGroq, {
     slug,
+  });
+
+  if (postData === null) {
+    throw new Response("Not Found", {
+      status: 404,
+    });
+  }
+
+  return SanityPostDocument.parse(postData);
+};
+
+export const getSanityPostDocumentById = async (
+  request: Request,
+  id: string,
+) => {
+  const client = await getSanityClient(request);
+  const postData = await client.fetch(postByIdGroq, {
+    id,
   });
 
   if (postData === null) {
