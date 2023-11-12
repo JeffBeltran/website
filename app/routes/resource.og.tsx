@@ -19,14 +19,18 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const png = await createPostOGImage(data, origin);
 
+  // Tip: Heavily cache the response in production
+  const cacheControl =
+    process.env.NODE_ENV === "production"
+      ? "public, immutable, no-transform, max-age=31536000"
+      : "no-cache";
+
   // Respond with the PNG buffer
   return new Response(png, {
     status: 200,
     headers: {
-      // Tell the browser the response is an image
       "Content-Type": "image/png",
-      // Tip: You might want to heavily cache the response in production
-      // 'cache-control': 'public, immutable, no-transform, max-age=31536000',
+      "cache-control": cacheControl,
     },
   });
 };

@@ -34,7 +34,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
 export default function PostPage() {
   const { data } = useLoaderData<typeof loader>();
-  // console.log(data);
   return (
     <div className="py-8">
       <h1 className="mb-4 mt-8 flex items-center py-1 font-mono text-4xl font-bold">

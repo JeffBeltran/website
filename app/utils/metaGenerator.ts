@@ -11,15 +11,12 @@ export const metaGenerator = (
 ) => {
   const { origin } = new URL(request.url);
 
-  console.log("origin", origin);
-  console.log("pageMeta", document.pageMeta.slug.current);
-
   const publishedAt = DateTime.fromISO(document.pageMeta.published).toISODate();
   const updatedAt = document.pageMeta.updated
     ? DateTime.fromISO(document.pageMeta.updated).toISODate()
     : publishedAt;
 
-  const absoluteUrl = `${origin}/${document.pageMeta.slug.current}`;
+  const absoluteUrl = `${origin}/posts/${document.pageMeta.slug.current}`;
 
   const image = `${origin}/resource/og?post=${document._id}`;
 
