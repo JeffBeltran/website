@@ -64,6 +64,9 @@ dependencies:
     version: 3.22.4
 
 devDependencies:
+  '@portabletext/types':
+    specifier: ^2.0.8
+    version: 2.0.8
   '@remix-run/dev':
     specifier: ^2.2.0
     version: 2.2.0(@remix-run/serve@2.2.0)(typescript@5.2.2)
@@ -1196,7 +1199,6 @@ packages:
   /@portabletext/types@2.0.8:
     resolution: {integrity: sha512-eiq9/kMX2bYezS4/kLFk3xNnruCFjCDdw6aYEv5ECHVKkYROiuLd3/AsP5d7tWF3+kPPy6tB0Wq8aqDG/URHGA==}
     engines: {node: ^14.13.1 || >=16.0.0 || >=18.0.0}
-    dev: false
 
   /@remix-run/dev@2.2.0(@remix-run/serve@2.2.0)(typescript@5.2.2):
     resolution: {integrity: sha512-JtteMtYirQlj1Xf9FSLLjqO+owxlqJVsTESgVWdF+CR5kon2i12YjPnRx1xGtB4UGgU/yTZseMTPNhTKc5mwpQ==}
