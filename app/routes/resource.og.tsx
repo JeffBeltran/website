@@ -1,4 +1,5 @@
 import { getSanityPostDocumentById } from "~/lib/sanity/index.server";
+import { SessionKey, getSession } from "~/sessions";
 import { createPostOGImage } from "~/utils/createOGImage.server";
 
 import type { LoaderFunctionArgs } from "@remix-run/node";
@@ -19,11 +20,17 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const png = await createPostOGImage(data, origin);
 
-  // Tip: Heavily cache the response in production
-  const cacheControl =
-    process.env.NODE_ENV === "production"
-      ? "public, immutable, no-transform, max-age=31536000"
-      : "no-cache";
+  // Get the current session
+  const session = await getSession(request.headers.get("Cookie"));
+  // Check if preview mode is enabled
+  const previewMode = !!session.get(SessionKey.Enum.previewToken);
+  // Enable cache in production or if preview mode is enabled
+  const enableCache = process.env.NODE_ENV === "production" && !previewMode;
+
+  // Tip: Heavily cache the response if enabled
+  const cacheControl = enableCache
+    ? "public, immutable, no-transform, max-age=31536000"
+    : "no-cache";
 
   // Respond with the PNG buffer
   return new Response(png, {
