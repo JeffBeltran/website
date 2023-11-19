@@ -34,7 +34,7 @@ export default function PostPage() {
   const { data } = useLoaderData<typeof loader>();
   return (
     <div className="py-8">
-      <h1 className="flex-inline mb-4 mt-8 items-center py-1 font-mono text-4xl font-bold">
+      <h1 className="flex-inline mb-4 items-center py-1 font-mono text-2xl font-bold md:text-3xl lg:mb-6 lg:text-4xl">
         <FontAwesomeIcon
           icon={faTerminal}
           className="mr-2 [--fa-primary-color:#fde047]"
@@ -43,7 +43,7 @@ export default function PostPage() {
         />
         {data.pageMeta.title}
       </h1>
-      <div className="prose mt-8 ">
+      <div className="prose">
         <PortableText value={data.content} components={RichTextComponents} />
       </div>
     </div>
