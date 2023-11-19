@@ -8,8 +8,12 @@ export function RichTextInternalLink({
   value,
 }: {
   children?: React.ReactNode;
-  value: z.infer<typeof SanityRichTextInternalPostSchema>;
+  value?: z.infer<typeof SanityRichTextInternalPostSchema>;
 }) {
+  if (!value) {
+    return null;
+  }
+
   return (
     <Link
       to={value.slug}
