@@ -1,7 +1,7 @@
+import { buildLink } from "~/utils/helper";
+
 import type { z } from "zod";
 import type { SanityRichTextLinkSchema } from "~/utils/SanitySchemas";
-
-/* eslint-disable react/jsx-no-target-blank */
 
 export function RichTextLink({
   children,
@@ -10,20 +10,18 @@ export function RichTextLink({
   children?: React.ReactNode;
   value?: z.infer<typeof SanityRichTextLinkSchema>;
 }) {
-  if (!value) {
+  const link = buildLink(value);
+
+  if (!link) {
     return null;
   }
 
-  const referrerPolicy = value.noReferrer ? "noreferrer" : "noopener";
-
-  const rel = value.noFollow ? `nofollow ${referrerPolicy}` : referrerPolicy;
-
   return (
     <a
-      href={value.href}
+      href={link.href}
       className="inline-block bg-yellow-300 px-1 py-0.5 no-underline transition duration-200 after:content-['_↗'] hover:-skew-y-1 hover:bg-yellow-400"
-      target={value.blank ? "_blank" : "_self"}
-      rel={rel}
+      target={link.target}
+      rel={link.rel}
     >
       {children}
     </a>

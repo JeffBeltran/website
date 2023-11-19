@@ -18,6 +18,14 @@ export const SanitySlug = z.object({
   current: z.string(),
 });
 
+export const SanityRichTextLinkSchema = z.object({
+  _type: z.literal("link"),
+  href: z.string(),
+  blank: z.boolean(),
+  noFollow: z.boolean(),
+  noReferrer: z.boolean(),
+});
+
 export const SanityImageAssetSchema = z
   .object({
     _id: z.string(),
@@ -65,6 +73,12 @@ export const SanityPageMeta = z.object({
   updated: z.string().optional(),
 });
 
+export const SanityRichTextInternalPostSchema = BaseSanityObject.extend({
+  _type: z.literal("post"),
+  title: z.string(),
+  slug: z.string(),
+});
+
 const SanityRichTextBlock = BaseSanityObject.extend({
   _type: z.literal("block"),
 }).passthrough();
@@ -75,18 +89,23 @@ export const SanityRichTextImage = BaseSanityObject.extend({
   showTitle: z.boolean(),
 }).passthrough();
 
+export const SanityRichTextQuoteBlock = BaseSanityObject.extend({
+  _type: z.literal("blockQuote"),
+  quote: z.string(),
+  attribution: z.string(),
+  source: z
+    .object({
+      name: z.string(),
+      url: SanityRichTextLinkSchema,
+    })
+    .optional(),
+}).passthrough();
+
 const SanityRichText = z.discriminatedUnion("_type", [
   SanityRichTextBlock,
   SanityRichTextImage,
+  SanityRichTextQuoteBlock,
 ]);
-
-export const SanityRichTextLinkSchema = BaseSanityObject.extend({
-  _type: z.literal("link"),
-  href: z.string(),
-  blank: z.boolean(),
-  noFollow: z.boolean(),
-  noReferrer: z.boolean(),
-});
 
 export const SanityPostDocument = BaseSanityDocument.extend({
   _type: z.literal("post"),

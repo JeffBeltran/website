@@ -4,9 +4,7 @@ import { PortableText } from "@portabletext/react";
 import { useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 
-import { InlineCodeMark } from "~/components/inline-code-mark";
-import { RichTextImage } from "~/components/rich-text-image";
-import { RichTextLink } from "~/components/rich-text-link";
+import { RichTextComponents } from "~/components/rich-text-components";
 import { getSanityPostDocument } from "~/lib/sanity/index.server";
 import { metaGenerator } from "~/utils/metaGenerator";
 
@@ -45,19 +43,8 @@ export default function PostPage() {
         />
         {data.pageMeta.title}
       </h1>
-      <div className="prose mt-8">
-        <PortableText
-          value={data.content}
-          components={{
-            marks: {
-              link: RichTextLink,
-              code: InlineCodeMark,
-            },
-            types: {
-              image: RichTextImage,
-            },
-          }}
-        />
+      <div className="prose mt-8 ">
+        <PortableText value={data.content} components={RichTextComponents} />
       </div>
     </div>
   );

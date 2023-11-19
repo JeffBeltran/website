@@ -34,6 +34,16 @@ export const postGroq = groq`*[
         _type == 'image' => { 
             ${imageGroq}
         },
+        _type == 'block' => {
+            ...,
+            markDefs[]{
+                ...,
+                _type == 'post' => {
+                    "slug": '/posts/' + @.post->pageMeta.slug.current,
+                    "title": @.post->pageMeta.title
+                }
+            }
+        }
     }
 } 
 `;
@@ -52,7 +62,7 @@ export const postByIdGroq = groq`*[
         ...,
         _type == 'image' => { 
             ${imageGroq}
-        },
+        }
     }
 } 
 `;
