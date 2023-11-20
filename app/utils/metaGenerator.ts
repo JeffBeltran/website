@@ -58,6 +58,12 @@ export const metaGenerator = (
       content: image,
     },
     {
+      name: "og:image:alt",
+      content: document.pageMeta.image.asset.altText,
+    },
+    { property: "og:image:width", content: OG_IMAGE_WIDTH },
+    { property: "og:image:height", content: OG_IMAGE_HEIGHT },
+    {
       "script:ld+json": {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
